@@ -253,7 +253,7 @@
     <div class="hint" id="hint">มือถือ: กดค้างที่รูป → บันทึกรูปภาพ · คอม: คลิกขวา → บันทึกรูปภาพ</div>
   </div>
 </div>
-<div class="foot">วิ่งวันหลัง · RUN ANOTHER DAY · v2.3</div>
+<div class="foot">วิ่งวันหลัง · RUN ANOTHER DAY · v2.4</div>
 <canvas id="c" width="1080" height="1920"></canvas>
 
 <script>
@@ -617,8 +617,13 @@ $("clearBtn").addEventListener("click", () => $("zoomReset").click());
 /* ---------- init ---------- */
 renderLogos(); if (selLogo >= 0) useLogo(selLogo); else updateCrest();
 syncLogoSize(); syncPeriod(); window.__ready = true; draw();
-if (document.fonts) Promise.all([`700 58px "Noto Sans Thai"`, `400 36px "Noto Sans Thai"`, `500 62px "Noto Sans Thai"`, `500 22px "Cinzel"`]
-  .map(f => document.fonts.load(f))).then(draw).catch(() => {});
+if (document.fonts){
+  const TXT = "กม.ระยะทางเพซเฉลี่ยอัตราเต้นหัวใจแคลอรี่ทั้งหมดเวลารวมพ.ย.@0123456789:/kmbpm";
+  const specs = [400,500,600,700].map(w => `${w} 60px "Noto Sans Thai"`).concat([`500 22px "Cinzel"`]);
+  Promise.all(specs.map(f => document.fonts.load(f, TXT))).then(draw).catch(() => {});
+  document.fonts.ready.then(draw);
+  document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", () => draw());
+}
 </script>
 </body>
 </html>
